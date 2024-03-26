@@ -1,0 +1,48 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <property name="change-set" value="create_real_apart_layout" global="false"/>
+    <property name="author" value="Smirnov Daniil" global="false"/>
+    <property name="table" value="APART_LAYOUT" global="false"/>
+
+    <!-- TABLES -->
+    <changeSet id="${change-set}:${table}:create_table" author="${author}">
+        <createTable tableName="${table}" remarks="Планировка">
+            <column name="ID" type="VARCHAR(36)" remarks="Идентификатор">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+
+            <column name="NAME" type="VARCHAR(256)" remarks="Наименование"/>
+        </createTable>
+    </changeSet>
+    <!-- END TABLES -->
+
+    <!-- INDEXES -->
+    <!-- END INDEXES -->
+
+    <!-- FOREIGN KEYS -->
+    <!-- END FOREIGN KEYS -->
+
+    <!-- SEQUENCES -->
+    <!-- EDN SEQUENCES -->
+
+    <!-- SQL -->
+    <!-- EDN SQL -->
+
+    <!-- INSERTS -->
+    <changeSet id="${change-set}:${table}:insert_values" author="${author}">
+        <insert tableName="${table}">
+            <column name="id" value="b2456872-aebc-4aa0-9616-027cb567970a"/>
+            <column name="name" value="Смежная"/>
+        </insert>
+        <insert tableName="${table}">
+            <column name="id" value="c8ea6a60-f3f1-4662-90c7-1d93407da8ef"/>
+            <column name="name" value="Изолированная"/>
+        </insert>
+    </changeSet>
+    <!-- END INSERTS -->
+
+</databaseChangeLog>

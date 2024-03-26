@@ -1,0 +1,45 @@
+server:
+  port: 8080
+
+spring:
+  main:
+    banner-mode: off
+
+  liquibase:
+    enabled: true
+    drop-first: true
+    change-log: classpath:db.changelog/database-changelog-master.xml
+    default-schema: reality
+    liquibase-schema: reality
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/real
+    username: owner_reality_db
+    password: owner_reality_db
+    driverClassName: org.postgresql.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        hql:
+          bulk_id_strategy: org.hibernate.hql.spi.id.inline.InlineIdsSubSelectValueListBulkIdStrategy
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        format_sql: true
+        default_schema: reality
+    open-in-view: false
+
+
+logging:
+  level:
+    root: INFO
+
+storage:
+  location: ./uploads
+
+auth:
+  jwt:
+    secret: 88d6f6d4e06b5569bc2075ee0155bf564cf60a7cc042552909f03a6e6c111f3e6d3db31d33e9d954e2f765c3282a1b83381c76a2de1df1379657dcc5d230f5835a302e38c771060f63fa1ba5d41228a32f8761a9dd78e2e87611dd31c793f38413aa25d7e4ec5ea5d391b6b17a53feeb6a8cc7ce70e1a8c387fe5dd8f72d88a7727a1929e6628c64ab78e40affe8563ffd7d1d51489df858ac7773914f40210bf50fdbcabc6aa352840c85ad285ade638ca17d16de4a79f8cb25355034a26cf2245595983500260e5aba0a4393c63e38d31a259f30077342ca1bd66322d0add208a3c30a32c60bf23c030a1dce88a8efea32fb3be25296c599e5108aad9884a2
+    expiration: 86400000

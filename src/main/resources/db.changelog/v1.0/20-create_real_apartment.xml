@@ -1,0 +1,163 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <property name="change-set" value="create_real_sec_user" global="false"/>
+    <property name="author" value="Smirnov Daniil" global="false"/>
+    <property name="table" value="APARTMENT" global="false"/>
+
+    <!-- TABLES -->
+    <changeSet id="${change-set}:${table}:create_table" author="${author}">
+        <createTable tableName="${table}" remarks="Справочник 'Курсы'">
+            <column name="id" type="VARCHAR(36)" remarks="Идентификатор пользователя">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+
+            <column name="EXTERNAL_ID" type="BIGINT" remarks="Внешний ID"/>
+            <column name="EXTERNAL_UUID" type="TEXT" remarks="Внешний UUID"/>
+            <column name="APARTMENT_NUMBER" type="SMALLINT" remarks="Номер квартиры"/>
+            <column name="POSTAL_NUMBER" type="TEXT" remarks="Почтовый номер"/>
+            <column name="GENERAL_LOT_NUMBER" type="TEXT" remarks="Общий номер лота"/>
+            <column name="QUANTITY_ROOMS" type="SMALLINT" remarks="Количество комнат"/>
+            <column name="IS_EURO" type="BOOLEAN" remarks="Студия/Евро (Да/Нет)"/>
+            <column name="ENTRANCE" type="SMALLINT" remarks="Подъезд"/>
+            <column name="SECTION" type="SMALLINT" remarks="Секция"/>
+            <column name="FLOOR" type="SMALLINT" remarks="Этаж"/>
+            <column name="RISER_NUMBER" type="TEXT" remarks="Номер стояка"/>
+            <column name="RISER_CARDINAL_DIRECTIONS" type="TEXT" remarks="Стороны света стояка"/>
+            <column name="PLANNING_GROUP" type="TEXT" remarks="Группа планировки"/>
+            <column name="PLANNING_CODE" type="TEXT" remarks="Код планировки"/>
+            <column name="APARTMENT_CLASS" type="TEXT" remarks="Класс квартиры"/>
+            <column name="SQUARE" type="DOUBLE PRECISION" remarks="Общая площадь, м²"/>
+            <column name="SQUARE_FULL" type="DOUBLE PRECISION" remarks="Полная площадь, м²"/>
+            <column name="PRICE" type="DOUBLE PRECISION" remarks="Цена объекта, ₽"/>
+            <column name="PREVIOUS_PRICE" type="DOUBLE PRECISION" remarks="Предыдущая цена, ₽"/>
+            <column name="LEGAL_PRICE" type="DOUBLE PRECISION" remarks="Юридическая цена, ₽"/>
+            <column name="SQUARE_PRICE" type="DOUBLE PRECISION" remarks="Цена за м², ₽"/>
+            <column name="SPECIAL_OFFER_PRICE" type="DOUBLE PRECISION" remarks="Цена по специальному предложению"/>
+            <column name="ARBITRARY_PRICE" type="DOUBLE PRECISION" remarks="Произвольная цена 1"/>
+            <column name="ARBITRARY_PRICE_2" type="DOUBLE PRECISION" remarks="Произвольная цена 2"/>
+            <column name="ARBITRARY_PRICE_3" type="DOUBLE PRECISION" remarks="Произвольная цена 3"/>
+            <column name="COLLATERAL_PRICE" type="DOUBLE PRECISION" remarks="Залоговая стоимость"/>
+            <column name="ESTIMATED_PRICE" type="DOUBLE PRECISION" remarks="Оценочная стоимость"/>
+            <column name="STATUS" type="TEXT" remarks="Статус"/>
+            <column name="IS_HOT_OFFER" type="BOOLEAN" remarks="Горячее предложение"/>
+            <column name="TAGS" type="TEXT" remarks="Теги"/>
+            <column name="OBJECT_CODE" type="TEXT" remarks="Код объекта"/>
+            <column name="IS_APARTMENTS" type="BOOLEAN" remarks="Апартаменты?"/>
+            <column name="IS_PENTHOUSE" type="BOOLEAN" remarks="Пентхаус?"/>
+            <column name="SELLER_ID" type="BIGINT" remarks="ID Контакта продавца"/>
+            <column name="PLANNING_CODE_DDY" type="TEXT" remarks="Код планировки для ДДУ"/>
+            <column name="SQUARE_BTI" type="DOUBLE PRECISION" remarks="Площадь БТИ, м²"/>
+            <column name="SQUARE_COEFFICIENT_BTI" type="DOUBLE PRECISION" remarks="Площадь БТИ (коэффициент.), м²"/>
+            <column name="SQUARE_BTI_WITHOUT_LP" type="DOUBLE PRECISION" remarks="Площадь БТИ без ЛП, м²"/>
+            <column name="RESIDENTIAL_SQUARE_BTI" type="DOUBLE PRECISION" remarks="Площадь жилая БТИ, м²"/>
+            <column name="SQUARE_LOGGIA_BTI" type="DOUBLE PRECISION" remarks="Площадь лоджии БТИ, м²"/>
+            <column name="SQUARE_BALCONY_BTI" type="DOUBLE PRECISION" remarks="Площадь балкона БТИ, м²"/>
+            <column name="SQUARE_DDY" type="DOUBLE PRECISION" remarks="Площадь для ДДУ, м²"/>
+            <column name="SQUARE_WITHOUT_LP" type="DOUBLE PRECISION" remarks="Площадь без ЛП, м²"/>
+            <column name="SQUARE_REDUCED" type="DOUBLE PRECISION" remarks="Приведенная площадь, м²"/>
+            <column name="SQUARE_PROJECT" type="DOUBLE PRECISION" remarks="Площадь проектная, м²"/>
+            <column name="SQUARE_ARBITRARY" type="DOUBLE PRECISION" remarks="Произвольная площадь 1, м²"/>
+            <column name="SQUARE_ARBITRARY_2" type="DOUBLE PRECISION" remarks="Произвольная площадь 2, м²"/>
+            <column name="SQUARE_ARBITRARY_3" type="DOUBLE PRECISION" remarks="Произвольная площадь 3, м²"/>
+            <column name="RESIDENTIAL_SQUARE" type="DOUBLE PRECISION" remarks="Площадь жилая, м²"/>
+            <column name="SQUARE_ROOM" type="DOUBLE PRECISION" remarks="Площадь комнаты 1, м²"/>
+            <column name="SQUARE_ROOM_2" type="DOUBLE PRECISION" remarks="Площадь комнаты 2, м²"/>
+            <column name="SQUARE_ROOM_3" type="DOUBLE PRECISION" remarks="Площадь комнаты 3, м²"/>
+            <column name="SQUARE_ROOM_4" type="DOUBLE PRECISION" remarks="Площадь комнаты 4, м²"/>
+            <column name="SQUARE_KITCHEN" type="DOUBLE PRECISION" remarks="Площадь кухни, м²"/>
+            <column name="SQUARE_KITCHEN_LIVING_ROOM" type="DOUBLE PRECISION" remarks="Площадь кухни-гостиной, м²"/>
+            <column name="SQUARE_LIVING_ROOM" type="DOUBLE PRECISION" remarks="Площадь гостиной, м²"/>
+            <column name="SQUARE_BEDROOM" type="DOUBLE PRECISION" remarks="Площадь спальни 1, м²"/>
+            <column name="SQUARE_BEDROOM_2" type="DOUBLE PRECISION" remarks="Площадь спальни 2, м²"/>
+            <column name="SQUARE_BEDROOM_3" type="DOUBLE PRECISION" remarks="Площадь спальни 1, м²"/>
+            <column name="SQUARE_BEDROOM_4" type="DOUBLE PRECISION" remarks="Площадь спальни 1, м²"/>
+            <column name="SQUARE_WARDROBE" type="DOUBLE PRECISION" remarks="Площадь гардероба 1, м²"/>
+            <column name="SQUARE_WARDROBE_2" type="DOUBLE PRECISION" remarks="Площадь гардероба 2, м²"/>
+            <column name="SQUARE_WARDROBE_3" type="DOUBLE PRECISION" remarks="Площадь гардероба 3, м²"/>
+            <column name="SQUARE_HALLWAY" type="DOUBLE PRECISION" remarks="Площадь прихожей/коридора, м²"/>
+            <column name="BATHROOM" type="TEXT" remarks="Санузел"/>
+            <column name="SQUARE_BATHROOM" type="DOUBLE PRECISION" remarks="Площадь санузла, м²"/>
+            <column name="SQUARE_BATHROOM_2" type="DOUBLE PRECISION" remarks="Площадь санузла 2, м²"/>
+            <column name="SQUARE_BATHROOM_3" type="DOUBLE PRECISION" remarks="Площадь санузла 3, м²"/>
+            <column name="SQUARE_LOGGIA" type="DOUBLE PRECISION" remarks="Площадь лоджии 1, м²"/>
+            <column name="SQUARE_LOGGIA_ARBITRARY" type="DOUBLE PRECISION" remarks="Площадь лоджии 1 (произвольная), м²"/>
+            <column name="SQUARE_LOGGIA_2" type="DOUBLE PRECISION" remarks="Площадь лоджии 2, м²"/>
+            <column name="SQUARE_LOGGIA_ARBITRARY_2" type="DOUBLE PRECISION" remarks="Площадь лоджии 2 (произвольная), м²"/>
+            <column name="SQUARE_LOGGIA_3" type="DOUBLE PRECISION" remarks="Площадь лоджии 3, м²"/>
+            <column name="SQUARE_LOGGIA_ARBITRARY_3" type="DOUBLE PRECISION" remarks="Площадь лоджии 3 (произвольная), м²"/>
+            <column name="SQUARE_BALCONY" type="DOUBLE PRECISION" remarks="Площадь балкона 1, м²"/>
+            <column name="SQUARE_BALCONY_ARBITRARY" type="DOUBLE PRECISION" remarks="Площадь балкона 1 (произвольная), м²"/>
+            <column name="SQUARE_BALCONY_2" type="DOUBLE PRECISION" remarks="Площадь балкона 2, м²"/>
+            <column name="SQUARE_BALCONY_ARBITRARY_2" type="DOUBLE PRECISION" remarks="Площадь балкона 2 (произвольная), м²"/>
+            <column name="BALCONY_FENCE_HEIGHT" type="DOUBLE PRECISION" remarks="Высота ограждения балкона"/>
+            <column name="BALCONY_HEIGHT" type="DOUBLE PRECISION" remarks="Высота балкона"/>
+            <column name="SQUARE_TERRACE" type="DOUBLE PRECISION" remarks="Площадь террасы 1, м²"/>
+            <column name="SQUARE_TERRACE_ARBITRARY" type="DOUBLE PRECISION" remarks="Площадь террасы 1 (произвольная), м²"/>
+            <column name="SQUARE_TERRACE_2" type="DOUBLE PRECISION" remarks="Площадь террасы 2, м²"/>
+            <column name="SQUARE_TERRACE_ARBITRARY_2" type="DOUBLE PRECISION" remarks="Площадь террасы 2 (произвольная), м²"/>
+            <column name="SQUARE_PANTRY" type="DOUBLE PRECISION" remarks="Площадь кладовки, м²"/>
+            <column name="SQUARE_AUXILIARY_PREMISES" type="DOUBLE PRECISION" remarks="Площадь помещений вспомогательного назначения, м²"/>
+            <column name="AUXILIARY_PREMISES_COUNT" type="SMALLINT" remarks="Количество помещений вспомогательного назначения,"/>
+            <column name="IS_REPAIR" type="BOOLEAN" remarks="Есть отделка?"/>
+            <column name="REPAIR_TYPE" type="TEXT" remarks="Вид отделки"/>
+            <column name="REPAIR_QUALITY" type="TEXT" remarks="Качество отделки"/>
+            <column name="WINDOWS_VIEW" type="TEXT" remarks="Вид из окон"/>
+            <column name="CONSTRUCTION_AXES" type="TEXT" remarks="Строительные оси"/>
+            <column name="CEILING_HEIGHT" type="DOUBLE PRECISION" remarks="Высота потолка, м"/>
+            <column name="CADASTRAL_NUMBER" type="TEXT" remarks="Кадастровый номер объекта"/>
+            <column name="AGREEMENT_BASED_AMOUNT" type="DOUBLE PRECISION" remarks="Сумма по договору-основания"/>
+            <column name="AGREEMENT_BASED_SQUARE" type="DOUBLE PRECISION" remarks="Площадь по договору-основания, м²"/>
+            <column name="PRE_INSTALLED_AGREEMENT_NUMBER" type="TEXT" remarks="Предуст. номер договора"/>
+            <column name="PRE_INSTALLED_BASED_AGREEMENT_NUMBER" type="TEXT" remarks="Предуст. номер договора-основания"/>
+            <column name="PRE_INSTALLED_BASED_AGREEMENT_DATE" type="DATE" remarks="Предуст. дата договора-основания"/>
+            <column name="PRE_INSTALLED_BASED_AGREEMENT_CONTACT" type="TEXT" remarks="Предустановленный контакт Договора-основания"/>
+            <column name="PRE_INSTALLED_BASED_AGREEMENT_REGISTRATION_DATE" type="DATE" remarks="Предуст. дата регистрации договора-основания"/>
+            <column name="PRE_INSTALLED_BASED_AGREEMENT_REGISTRATION_NUMBER" type="TEXT" remarks="Предуст. номер регистрации договора основания"/>
+            <column name="AGREEMENT_BASED_SCHEDULED_PAYMENT_SCHEDULE" type="TEXT" remarks="Плановый график платежей по договору-основанию"/>
+            <column name="PRE_INSTALLED_AGREEMENT_REGISTRATION_NUMBER" type="TEXT" remarks="Плановый график платежей по основному договору"/>
+            <column name="AGREEMENT_BASED_DEPOSITED_AMOUNT" type="TEXT" remarks="Депонированная сумма по договору-основанию"/>
+            <column name="PROVIDING_METHOD" type="TEXT" remarks="Способ обеспечения"/>
+            <column name="RESERVATION_END_DATE" type="DATE" remarks="Дата окончания брони"/>
+            <column name="SERVICE_MARKS" type="TEXT" remarks="Служебные отметки"/>
+            <column name="CUSTOM_TEXT" type="TEXT" remarks="Произвольный текст 1"/>
+            <column name="CUSTOM_TEXT_2" type="TEXT" remarks="Произвольный текст 2"/>
+            <column name="CUSTOM_TEXT_3" type="TEXT" remarks="Произвольный текст 3"/>
+            <column name="IS_EXCLUSIVE" type="BOOLEAN" remarks="Эксклюзив"/>
+            <column name="LEVELS_COUNT" type="SMALLINT" remarks="Уровней"/>
+            <column name="ROOMS_TYPE" type="TEXT" remarks="Тип комнат"/>
+            <column name="SALE_TYPE" type="TEXT" remarks="Тип продажи"/>
+            <column name="VIRTUAL_TOUR_LINK" type="TEXT" remarks="Ссылка на виртуальный тур"/>
+            <column name="AGENT_FEES" type="DOUBLE PRECISION" remarks="Ссылка на виртуальный тур"/>
+            <column name="SELLING_NAME" type="TEXT" remarks="Продающее название"/>
+            <column name="READY_FOR_TRANSFER_OBJECT_PLANNED_DATE" type="DATE" remarks="Плановая дата готовности объекта к передаче"/>
+            <column name="READY_FOR_TRANSFER_OBJECT_ACTUAL_DATE" type="DATE" remarks="Фактическая дата готовности объекта к передаче"/>
+            <column name="ADDRESS" type="TEXT" remarks="Адрес объекта"/>
+            <column name="PLANNING_NAME" type="TEXT" remarks="Название планировки"/>
+            <column name="PLANNING_DESCRIPTION" type="TEXT" remarks="Описание планировки"/>
+            <column name="SMART_PLANNING" type="BOOLEAN" remarks="СМАРТ-Планировка Да/Нет"/>
+
+            <column name="DATE_TIME_CREATED" type="TIMESTAMP WITH TIME ZONE"
+                    remarks="Дата и время создания пользователя">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <!-- END TABLES -->
+
+    <!-- INDEXES -->
+    <!-- END INDEXES -->
+
+    <!-- FOREIGN KEYS -->
+    <!-- END FOREIGN KEYS -->
+
+    <!-- SEQUENCES -->
+    <!-- EDN SEQUENCES -->
+
+    <!-- SQL -->
+    <!-- EDN SQL -->
+
+</databaseChangeLog>

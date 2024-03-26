@@ -1,0 +1,109 @@
+#version: "3.9"
+#
+#x-db-cred: &db-cred
+#  DB_HOST: db-service
+#  DB_ADDR: db-service
+#  DB_USER: ${DB_USER}
+#  DB_PASSWORD: ${DB_PASSWORD}
+#
+#x-healthcheck-params: &healthcheck-params
+#  interval: 30s
+#  timeout: 20s
+#  retries: 3
+#
+#services:
+#  db-service:
+#    restart: unless-stopped
+#    image: 'postgres:14.1-alpine'
+#    user: postgres
+#    environment:
+#      POSTGRES_USER: ${DB_USER}
+#      POSTGRES_PASSWORD: ${DB_PASSWORD}
+#    ports:
+#      - "5444:5432"
+#    volumes:
+#      - real_postgres:/var/lib/postgresql/data
+#    healthcheck:
+#      test: pg_isready
+#      <<: *healthcheck-params
+#
+#  core-service:
+#    restart: unless-stopped
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    image: core
+#    depends_on:
+#      keycloak-service:
+#        condition: service_healthy
+#      db-service:
+#        condition: service_healthy
+#    environment:
+#      SPRING_PROFILES_ACTIVE: prod
+#      PORT: 80
+#      KEYCLOAK_HOST: keycloak-service:8080
+#      KEYCLOAK_REALM_NAME: ${KEYCLOAK_REALM_NAME}
+#      KEYCLOAK_REALM_CERTS_RS256: ${KEYCLOAK_REALM_CERTS_RS256}
+#      KEYCLOAK_CLIENT_ID: ${KEYCLOAK_CLIENT_ID}
+#      KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_CLIENT_SECRET}
+#      <<: *db-cred
+#      DB_NAME: core
+#    ports:
+#      - "8085:80"
+#    healthcheck:
+#      test: "wget -qO - http://0.0.0.0:80/actuator/health | grep '\"status\":\"UP\"'"
+#      <<: *healthcheck-params
+#
+#networks:
+#  default:
+#    driver: bridge
+#    ipam:
+#      config:
+#        - subnet: 172.16.16.0/24
+#
+#volumes:
+#  real_postgres:
+#  real_pgadmin:
+#
+
+
+version: '3.8'
+
+networks:
+  real:
+    driver: bridge
+
+volumes:
+  postgres_data_reality:
+    driver: local
+
+services:
+
+  postgres:
+    container_name: Real-Postgres
+    image: postgres:13
+    volumes:
+      - postgres_data_reality:/var/lib/postgresql/data
+    ports:
+      - "9080:5432"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    restart: unless-stopped
+    networks:
+      - real
+
+  real-backend:
+    container_name: Real-Backend
+    image: real/real-backend:latest
+    build: .
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SERVER_PORT: 8080
+    ports:
+      - "8080:8080"
+    networks:
+      - real
+    depends_on:
+      - postgres

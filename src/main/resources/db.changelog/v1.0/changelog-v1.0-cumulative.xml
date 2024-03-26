@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <include file="0-create_real_sec_user.xml" relativeToChangelogFile="true"/>
+    <include file="1-create_real_sec_authority.xml" relativeToChangelogFile="true"/>
+    <include file="2-create_real_sec_user_authority.xml" relativeToChangelogFile="true"/>
+    <include file="3-create_real_apаrt_apartment_type.xml" relativeToChangelogFile="true"/>
+    <include file="4-create_real_apart_ceiling_decoration.xml" relativeToChangelogFile="true"/>
+    <include file="5-create_real_apart_floor_covering_material.xml" relativeToChangelogFile="true"/>
+    <include file="6-create_real_apart_furniture.xml" relativeToChangelogFile="true"/>
+    <include file="7-create_real_apart_layout.xml" relativeToChangelogFile="true"/>
+    <include file="20-create_real_apartment.xml" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>

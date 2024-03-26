@@ -1,0 +1,64 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <property name="change-set" value="create_real_apart_ceiling_decoration" global="false"/>
+    <property name="author" value="Smirnov Daniil" global="false"/>
+    <property name="table" value="APART_CEILING_DECORATION" global="false"/>
+
+    <!-- TABLES -->
+    <changeSet id="${change-set}:${table}:create_table" author="${author}">
+        <createTable tableName="${table}" remarks="Отделка потолка">
+            <column name="ID" type="VARCHAR(36)" remarks="Идентификатор">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+
+            <column name="NAME" type="VARCHAR(256)" remarks="Наименование"/>
+        </createTable>
+    </changeSet>
+    <!-- END TABLES -->
+
+    <!-- INDEXES -->
+    <!-- END INDEXES -->
+
+    <!-- FOREIGN KEYS -->
+    <!-- END FOREIGN KEYS -->
+
+    <!-- SEQUENCES -->
+    <!-- EDN SEQUENCES -->
+
+    <!-- SQL -->
+    <!-- EDN SQL -->
+
+    <!-- INSERTS -->
+    <changeSet id="${change-set}:${table}:insert_values" author="${author}">
+        <insert tableName="${table}">
+            <column name="id" value="25cd846f-6396-4ecb-8e88-f25b1025ef80"/>
+            <column name="name" value="Побелка"/>
+        </insert>
+        <insert tableName="${table}">
+            <column name="id" value="81030c87-b71a-45b8-94de-422b357f6fa4"/>
+            <column name="name" value="Покраска"/>
+        </insert>
+        <insert tableName="${table}">
+            <column name="id" value="6d1c3e54-df2f-49e4-986d-64e97f3def7b"/>
+            <column name="name" value="Потолочная плитка"/>
+        </insert>
+        <insert tableName="${table}">
+            <column name="id" value="d200de75-647c-435e-b1f6-22486470e2d8"/>
+            <column name="name" value="Подвесной потолок"/>
+        </insert>
+        <insert tableName="${table}">
+            <column name="id" value="132cd273-11f2-4704-a7a2-6f707bfc5a0f"/>
+            <column name="name" value="Натяжной потолок"/>
+        </insert>
+        <insert tableName="${table}">
+            <column name="id" value="cd22f328-0f6e-498a-8306-ea83b0d391ac"/>
+            <column name="name" value="Без покрытия"/>
+        </insert>
+    </changeSet>
+    <!-- END INSERTS -->
+
+</databaseChangeLog>

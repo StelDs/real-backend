@@ -1,0 +1,51 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <property name="change-set" value="create_real_sec_user_authority" global="false"/>
+    <property name="author" value="Smirnov Daniil" global="false"/>
+    <property name="table" value="SEC_USER_AUTHORITY" global="false"/>
+
+    <!-- TABLES -->
+    <changeSet id="${change-set}:${table}:create_table" author="${author}">
+        <createTable tableName="${table}" remarks="Полномочия пользователей">
+            <column name="USER_ID" type="VARCHAR(36)" remarks="Идентификатор пользователя">
+                <constraints nullable="false"
+                             foreignKeyName="USER_FK"
+                             referencedTableName="SEC_USER"
+                             referencedColumnNames="ID"/>
+            </column>
+            <column name="AUTHORITY_ID" type="VARCHAR(36)" remarks="Идентификатор полномочия">
+                <constraints nullable="false"
+                             foreignKeyName="AUTHORITY_FK"
+                             referencedTableName="SEC_AUTHORITY"
+                             referencedColumnNames="ID"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <!-- END TABLES -->
+
+    <!-- INDEXES -->
+    <!-- END INDEXES -->
+
+    <!-- FOREIGN KEYS -->
+    <!-- END FOREIGN KEYS -->
+
+    <!-- SEQUENCES -->
+    <!-- EDN SEQUENCES -->
+
+    <!-- SQL -->
+    <!-- EDN SQL -->
+
+    <!-- INSERTS -->
+    <changeSet id="${change-set}:${table}:insert_values" author="${author}">
+        <insert tableName="${table}">
+            <column name="USER_ID" value="b3f2d7bc-b4a7-4bb1-a4e2-c186803ec302"/>
+            <column name="AUTHORITY_ID" value="d1a1ae79-d966-4e8f-a1cc-299aff99b50e"/>
+        </insert>
+    </changeSet>
+    <!-- END INSERTS -->
+
+</databaseChangeLog>

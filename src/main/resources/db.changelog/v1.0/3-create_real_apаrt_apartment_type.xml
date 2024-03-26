@@ -1,0 +1,80 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <property name="change-set" value="create_real_apart_apartment_type" global="false"/>
+    <property name="author" value="Smirnov Daniil" global="false"/>
+    <property name="table" value="APART_APARTMENT_TYPE" global="false"/>
+
+    <!-- TABLES -->
+    <changeSet id="${change-set}:${table}:create_table" author="${author}">
+        <createTable tableName="${table}" remarks="Тип жилья">
+            <column name="ID" type="VARCHAR(36)" remarks="Идентификатор">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+
+            <column name="NAME" type="VARCHAR(256)" remarks="Наименование"/>
+        </createTable>
+    </changeSet>
+    <!-- END TABLES -->
+
+    <!-- INDEXES -->
+    <!-- END INDEXES -->
+
+    <!-- FOREIGN KEYS -->
+    <!-- END FOREIGN KEYS -->
+
+    <!-- SEQUENCES -->
+    <!-- EDN SEQUENCES -->
+
+    <!-- SQL -->
+    <!-- EDN SQL -->
+
+    <!-- INSERTS -->
+    <changeSet id="${change-set}:${table}:insert_values" author="${author}">
+        <insert tableName="${table}">
+            <column name="id" value="b7ed4935-a3cb-45b4-b515-7432b9a5d50f"/>
+            <column name="name" value="Студия"/>
+        </insert>
+        <insert tableName="${table}">
+            <column name="id" value="e04b7b27-6159-45a9-9035-8a04d58503bf"/>
+            <column name="name" value="1 комната"/>
+        </insert>
+        <insert tableName="${table}">
+            <column name="id" value="0e3aadca-7c03-4c65-9b2a-44d38d554efb"/>
+            <column name="name" value="Еврооднушка"/>
+        </insert>
+        <insert tableName="${table}">
+            <column name="id" value="368a48f1-6fe9-4927-ab5f-8aa18ecfdaf2"/>
+            <column name="name" value="2 комнаты"/>
+        </insert>
+        <insert tableName="${table}">
+            <column name="id" value="508a1dec-8d9f-4dc0-9fd2-5f96e47cd1d2"/>
+            <column name="name" value="Евродвушка"/>
+        </insert>
+        <insert tableName="${table}">
+            <column name="id" value="81f8c316-046f-4926-85ae-8e058537258e"/>
+            <column name="name" value="3 комнаты"/>
+        </insert>
+        <insert tableName="${table}">
+            <column name="id" value="7343546d-2b9e-4687-a6e0-2ad78506a5eb"/>
+            <column name="name" value="Евротрешка"/>
+        </insert>
+        <insert tableName="${table}">
+            <column name="id" value="7cbfb2c7-ddb6-4ca2-932a-4744a9f2c35e"/>
+            <column name="name" value="4 комнаты"/>
+        </insert>
+        <insert tableName="${table}">
+            <column name="id" value="bd36ae9d-1a31-40a9-b86d-66524f88af6f"/>
+            <column name="name" value="5 комнат и больше"/>
+        </insert>
+        <insert tableName="${table}">
+            <column name="id" value="33b8307f-305f-4973-af1c-253b4ce8ce26"/>
+            <column name="name" value="Свободная планировка"/>
+        </insert>
+    </changeSet>
+    <!-- END INSERTS -->
+
+</databaseChangeLog>

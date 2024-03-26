@@ -1,0 +1,10 @@
+target/
+uploads/
+.env
+
+### IntelliJ IDEA ###
+.jpb
+.idea
+*.iws
+*.iml
+*.ipr
