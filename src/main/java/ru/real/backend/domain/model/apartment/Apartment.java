@@ -764,6 +764,37 @@ public class Apartment extends BaseEntity {
      */
     @Column(name = "SMART_PLANNING")
     private Boolean smartPlanning;
+
+    /**
+     * Количество квартир на этаже
+     */
+    @Column(name = "COUNT_OF_APARTMENTS_PER_FLOOR", columnDefinition = "int2")
+    private Integer countOfApartmentsFerFloor;
+
+    /**
+     * Этажей в доме
+     */
+    @Column(name = "COUNT_FLOOR", columnDefinition = "int2")
+    private Integer countFloor;
+
+    /**
+     * Тип жилья
+     */
+    @Column(name = "APARTMENT_TYPE")
+    private String apartmentType;
+
+    /**
+     * Тип дома
+     */
+    @Column(name = "HOUSE_TYPE")
+    private String houseType;
+
+    /**
+     * Умный дом
+     */
+    @Column(name = "IS_SMART_HOME")
+    private Boolean isSmartHome;
+
     /**
      * Дата и время создания
      */

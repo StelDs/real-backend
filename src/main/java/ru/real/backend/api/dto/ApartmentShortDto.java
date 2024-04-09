@@ -25,4 +25,6 @@ public class ApartmentShortDto extends BaseDto {
     private Double square;
     private Double squareKitchen;
     private Double squareKitchenLivingRoom;
+
+    private Integer percent;
 }

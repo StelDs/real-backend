@@ -3,11 +3,13 @@ package ru.real.backend.impl.service.apartment;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.real.backend.api.dto.ApartmentShortDto;
+import ru.real.backend.api.dto.ApartmentSmartSearchDto;
 import ru.real.backend.api.search.ApartmentSearchDto;
 import ru.real.backend.core.exception.DataNotFoundException;
 import ru.real.backend.core.util.SpecificationUtils;
@@ -16,6 +18,7 @@ import ru.real.backend.impl.mapper.ApartmentMapper;
 import ru.real.backend.impl.mapper.ApartmentParserMapper;
 import ru.real.backend.impl.repository.ApartmentRepository;
 import ru.real.backend.impl.util.ApartmentExcelParser;
+import ru.real.backend.impl.util.PreferenceScoreCalculator;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -31,6 +34,7 @@ public class ApartmentService {
     private final ApartmentParserMapper parserMapper;
     private final ApartmentMapper mapper;
     private final ApartmentExcelParser excelParser;
+    private final PreferenceScoreCalculator calculator;
 
     public ApartmentShortDto findById(UUID id) {
         return mapper.convertToDto(repository.findById(id).orElseThrow(() -> new DataNotFoundException(
@@ -74,10 +78,18 @@ public class ApartmentService {
                 .collect(Collectors.toList());
     }
 
+    public Page<ApartmentShortDto> smartSearch(ApartmentSmartSearchDto filter, @NotNull Pageable pageable) {
+        List<ApartmentShortDto> allItems = calculator.calculate(repository.findAll(), filter);
+        List<ApartmentShortDto> toPage = allItems.stream()
+                .skip((long) pageable.getPageNumber() * pageable.getPageSize())
+                .limit(pageable.getPageSize())
+                .collect(Collectors.toList());
+        return new PageImpl<>(toPage, pageable, allItems.size());
+    }
+
     private Specification<Apartment> getSpecification(ApartmentSearchDto filter) {
         if (Objects.isNull(filter))
             return SpecificationUtils.emptySpecification();
-//
         return SpecificationUtils.<Apartment, String>like("address", filter.getAddress(), true);
     }
 }

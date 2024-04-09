@@ -5,11 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.real.backend.api.dto.ApartmentShortDto;
+import ru.real.backend.api.dto.ApartmentSmartSearchDto;
 import ru.real.backend.api.resource.ApartmentResource;
 import ru.real.backend.api.search.ApartmentSearchDto;
 import ru.real.backend.impl.service.apartment.ApartmentService;
@@ -52,5 +51,10 @@ public class ApartmentController implements ApartmentResource {
     @Override
     public ResponseEntity<List<ApartmentShortDto>> parseFile(@RequestParam("file") MultipartFile file) {
         return ResponseEntity.ok(apartmentService.parseAndSave(file));
+    }
+
+    @PostMapping("/smart-search")
+    public ResponseEntity<Page<ApartmentShortDto>> smartSearch(@RequestBody ApartmentSmartSearchDto filter, Pageable pageable) {
+        return ResponseEntity.ok(apartmentService.smartSearch(filter, pageable));
     }
 }

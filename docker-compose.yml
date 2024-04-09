@@ -84,9 +84,11 @@ services:
     image: postgres:13
     volumes:
       - postgres_data_reality:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - "9080:5432"
+      - "8081:5432"
     environment:
+      POSTGRES_MULTIPLE_DATABASES: postgres, real
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -96,11 +98,14 @@ services:
 
   real-backend:
     container_name: Real-Backend
-    image: real/real-backend:latest
+    image: danyilsmirnov/stell-backend:1.0
     build: .
     environment:
       SPRING_PROFILES_ACTIVE: prod
       SERVER_PORT: 8080
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/real
+      SPRING_DATASOURCE_USERNAME: owner_reality_db
+      SPRING_DATASOURCE_PASSWORD: owner_reality_db
     ports:
       - "8080:8080"
     networks:

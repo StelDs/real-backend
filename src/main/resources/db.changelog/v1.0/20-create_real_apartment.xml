@@ -140,6 +140,14 @@
             <column name="PLANNING_DESCRIPTION" type="TEXT" remarks="Описание планировки"/>
             <column name="SMART_PLANNING" type="BOOLEAN" remarks="СМАРТ-Планировка Да/Нет"/>
 
+
+            <column name="COUNT_OF_APARTMENTS_PER_FLOOR" type="SMALLINT" remarks="Количество квартир на этаже"/>
+            <column name="COUNT_FLOOR" type="SMALLINT" remarks="Этажей в доме"/>
+            <column name="APARTMENT_TYPE" type="TEXT" remarks="Тип жилья"/>
+            <column name="HOUSE_TYPE" type="TEXT" remarks="Тип дома"/>
+            <column name="IS_SMART_HOME" type="BOOLEAN" remarks="Умный дом"/>
+
+
             <column name="DATE_TIME_CREATED" type="TIMESTAMP WITH TIME ZONE"
                     remarks="Дата и время создания пользователя">
                 <constraints nullable="false"/>
