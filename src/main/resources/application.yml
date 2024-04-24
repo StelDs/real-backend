@@ -5,12 +5,12 @@ spring:
   main:
     banner-mode: off
 
-  liquibase:
-    enabled: true
-    drop-first: true
-    change-log: classpath:db.changelog/database-changelog-master.xml
-    default-schema: reality
-    liquibase-schema: reality
+#  liquibase:
+#    enabled: true
+#    drop-first: true
+#    change-log: classpath:db.changelog/database-changelog-master.xml
+#    default-schema: reality
+#    liquibase-schema: reality
 
   datasource:
     url: jdbc:postgresql://localhost:5432/real

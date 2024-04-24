@@ -98,7 +98,7 @@ services:
 
   real-backend:
     container_name: Real-Backend
-    image: danyilsmirnov/stell-backend:1.0
+    image: stelds/stell-backend:2.0
     build: .
     environment:
       SPRING_PROFILES_ACTIVE: prod
