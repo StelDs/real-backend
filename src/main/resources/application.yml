@@ -7,7 +7,7 @@ spring:
 
 #  liquibase:
 #    enabled: true
-#    drop-first: true
+#    drop-first: false
 #    change-log: classpath:db.changelog/database-changelog-master.xml
 #    default-schema: reality
 #    liquibase-schema: reality
@@ -15,8 +15,9 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/real
     username: owner_reality_db
-    password: owner_reality_db
+    password: StelRealDb2023
     driverClassName: org.postgresql.Driver
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     show-sql: true

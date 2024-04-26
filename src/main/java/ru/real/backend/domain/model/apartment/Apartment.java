@@ -800,4 +800,23 @@ public class Apartment extends BaseEntity {
      */
     @Column(name = "DATE_TIME_CREATED")
     private ZonedDateTime dateTimeCreated;
+
+    /**
+     * ссылки на картинки
+     */
+    @Column(name = "PIC_HREFS")
+    private String picHrefs;
+
+    /**
+     * наименование компании/риелтора
+     */
+    @Column(name = "COMPANY")
+    private String company;
+
+    /**
+     * телефон компании/риелтора
+     */
+    @Column(name = "PHONE")
+    private String phone;
+
 }

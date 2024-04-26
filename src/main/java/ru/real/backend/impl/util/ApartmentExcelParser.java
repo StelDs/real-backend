@@ -173,6 +173,9 @@ public class ApartmentExcelParser extends DefaultParser<MultipartFile, Apartment
         if (intendedAddress != null && !intendedAddress.isEmpty())
             this.address = intendedAddress;
         dto.setAddress(address);
+
+        dto.setPicHrefs(getStringValue(row.getCell(121)));
+
         return dto;
     }
 

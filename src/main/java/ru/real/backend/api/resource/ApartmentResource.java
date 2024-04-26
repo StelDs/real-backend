@@ -12,8 +12,8 @@ import ru.real.backend.core.resource.BaseResource;
 
 @RequestMapping
 public interface ApartmentResource extends BaseResource<ApartmentShortDto, ApartmentSearchDto> {
+
     @PostMapping("/parse")
     ResponseEntity<?> parseFile(@RequestParam("file") MultipartFile file);
-
 
 }

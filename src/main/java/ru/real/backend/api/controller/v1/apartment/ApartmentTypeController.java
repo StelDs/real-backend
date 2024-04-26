@@ -19,7 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/v1/apartment-types", produces = {MediaType.APPLICATION_JSON_VALUE})
 public class ApartmentTypeController implements DictionaryResource {
-    private final ApartmentTypeService service;
+    private  ApartmentTypeService service;
 
     @Override
     public ResponseEntity<DictionaryDto> findById(UUID id) {

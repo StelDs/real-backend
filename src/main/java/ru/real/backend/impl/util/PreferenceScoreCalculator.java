@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import ru.real.backend.api.dto.ApartmentShortDto;
 import ru.real.backend.api.dto.ApartmentSmartSearchDto;
 import ru.real.backend.domain.model.apartment.Apartment;
-import ru.real.backend.impl.mapper.ApartmentMapper;
+import ru.real.backend.impl.mapper.ApartmentShortMapper;
 
 import java.util.Comparator;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class PreferenceScoreCalculator {
-    private final ApartmentMapper apartmentMapper;
+    private final ApartmentShortMapper apartmentShortMapper;
     private static final int MIN_BORDER = -1;
     private static final int MAX_BORDER = 1_000_000_000;
 
@@ -29,7 +29,7 @@ public class PreferenceScoreCalculator {
     public List<ApartmentShortDto> calculate(@NotNull List<Apartment> apartments, @NotNull ApartmentSmartSearchDto searchDto) {
         return apartments.parallelStream()
                 .map(apartment -> {
-                    ApartmentShortDto dto = apartmentMapper.convertToDto(apartment);
+                    ApartmentShortDto dto = apartmentShortMapper.convertToDto(apartment);
                     dto.setPercent(calculate(apartment, searchDto));
                     return dto;
                 })

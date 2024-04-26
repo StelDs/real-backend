@@ -2,29 +2,28 @@ package ru.real.backend.impl.service.apartment;
 
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.real.backend.api.dto.ApartmentShortDto;
-import ru.real.backend.api.dto.ApartmentSmartSearchDto;
+import ru.real.backend.api.dto.*;
 import ru.real.backend.api.search.ApartmentSearchDto;
 import ru.real.backend.core.exception.DataNotFoundException;
 import ru.real.backend.core.util.SpecificationUtils;
 import ru.real.backend.domain.model.apartment.Apartment;
-import ru.real.backend.impl.mapper.ApartmentMapper;
+import ru.real.backend.impl.mapper.ApartmentFullMapper;
+import ru.real.backend.impl.mapper.ApartmentShortMapper;
 import ru.real.backend.impl.mapper.ApartmentParserMapper;
 import ru.real.backend.impl.repository.ApartmentRepository;
+import ru.real.backend.impl.repository.JdbcApartmentRepository;
 import ru.real.backend.impl.util.ApartmentExcelParser;
 import ru.real.backend.impl.util.PreferenceScoreCalculator;
 
 import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,34 +31,75 @@ import java.util.stream.Collectors;
 public class ApartmentService {
     private final ApartmentRepository repository;
     private final ApartmentParserMapper parserMapper;
-    private final ApartmentMapper mapper;
+    private final ApartmentShortMapper shortMapper;
+    private final ApartmentFullMapper fullMapper;
     private final ApartmentExcelParser excelParser;
     private final PreferenceScoreCalculator calculator;
 
+
+    // Test JdbcTemplate
+    @Qualifier("ApartmentRepositoryImpl")
+    private JdbcApartmentRepository jdbcApartmentRepository;
+
     public ApartmentShortDto findById(UUID id) {
-        return mapper.convertToDto(repository.findById(id).orElseThrow(() -> new DataNotFoundException(
+        return shortMapper.convertToDto(repository.findById(id).orElseThrow(() -> new DataNotFoundException(
                 "apartment.not.found", "Data not found", String.format("Apartment с id %s не найден", id))));
     }
 
-    public ApartmentShortDto save(ApartmentShortDto dto) {
-        Apartment apartment = mapper.convertToEntity(dto);
-        apartment.setId(UUID.randomUUID());
-        apartment.setDateTimeCreated(ZonedDateTime.now());
-        return mapper.convertToDto(repository.save(apartment));
+    public ApartmentFullDto findByIdFull(UUID id) {
+        Apartment apartment = repository.findById(id).orElseThrow(() ->
+                new DataNotFoundException(
+                        "apartment.not.found",
+                        "Data not found",
+                        String.format("Apartment с id %s не найден", id)
+                )
+        );
+
+        return fullMapper.convertToDto(apartment);
+
     }
 
+    public ApartmentShortDto save(ApartmentShortDto dto) {
+        Apartment apartment = shortMapper.convertToEntity(dto);
+        apartment.setId(UUID.randomUUID());
+        apartment.setDateTimeCreated(ZonedDateTime.now());
+        return shortMapper.convertToDto(repository.save(apartment));
+    }
+
+
+/*
     public ApartmentShortDto save(@NotNull Apartment dto) {
         AtomicReference<ApartmentShortDto> toReturn = new AtomicReference<>();
-        repository.findByExternalId(dto.getExternalId()).ifPresentOrElse(it -> toReturn.set(mapper.convertToDto(it)), () -> {
+        repository.findByExternalId(dto.getExternalId()).ifPresentOrElse(it -> toReturn.set(shortMapper.convertToDto(it)), () -> {
             dto.setId(UUID.randomUUID());
             dto.setDateTimeCreated(ZonedDateTime.now());
-            toReturn.set(mapper.convertToDto(repository.save(dto)));
+            toReturn.set(shortMapper.convertToDto(repository.save(dto)));
         });
         return toReturn.get();
     }
+*/
+
+    public ApartmentShortDto save(@NotNull Apartment dto) {
+        ApartmentShortDto toReturn = null;
+
+        Optional<Apartment> existingEntity = repository.findByExternalId(dto.getExternalId());
+
+        //     Optional<ApartmentPicHrefDto> apt = jdbcApartmentRepository.findById(3332503L);
+
+
+        if (existingEntity.isPresent()) {
+            toReturn = shortMapper.convertToDto(existingEntity.get());
+        } else {
+            dto.setId(UUID.randomUUID());
+            dto.setDateTimeCreated(ZonedDateTime.now());
+            toReturn = shortMapper.convertToDto(repository.save(dto));
+        }
+
+        return toReturn;
+    }
 
     public ApartmentShortDto update(ApartmentShortDto dto) {
-        return mapper.convertToDto(repository.save(mapper.convertToEntity(dto)));
+        return shortMapper.convertToDto(repository.save(shortMapper.convertToEntity(dto)));
     }
 
     public void deleteById(UUID id) {
@@ -68,15 +108,30 @@ public class ApartmentService {
 
     public Page<ApartmentShortDto> findAll(ApartmentSearchDto filter, Pageable pageable) {
         return repository.findAll(getSpecification(filter), pageable)
-                .map(mapper::convertToDto);
+                .map(shortMapper::convertToDto);
     }
 
+//    public List<ApartmentShortDto> parseAndSave(MultipartFile file) {
+//        return excelParser.parse(file).stream()
+//                .map(parserMapper::convertToEntity)
+//                .map(this::save)
+//                .collect(Collectors.toList());
+//    }
+
+
     public List<ApartmentShortDto> parseAndSave(MultipartFile file) {
-        return excelParser.parse(file).stream()
-                .map(parserMapper::convertToEntity)
-                .map(this::save)
-                .collect(Collectors.toList());
+        List<ApartmentParserDto> parsedList = excelParser.parse(file);
+        List<ApartmentShortDto> savedList = new ArrayList<>();
+
+        for (ApartmentParserDto model : parsedList) {
+            Apartment entity = parserMapper.convertToEntity(model);
+            ApartmentShortDto savedDto = save(entity);
+            savedList.add(savedDto);
+        }
+
+        return savedList;
     }
+
 
     public Page<ApartmentShortDto> smartSearch(ApartmentSmartSearchDto filter, @NotNull Pageable pageable) {
         List<ApartmentShortDto> allItems = calculator.calculate(repository.findAll(), filter);

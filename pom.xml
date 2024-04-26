@@ -25,7 +25,7 @@
 
         <spring.parent.version>2.7.9</spring.parent.version>
         <org.apache.poi.version>5.2.0</org.apache.poi.version>
-        <liquibase-core.version>4.16.1</liquibase-core.version>
+<!--        <liquibase-core.version>4.16.1</liquibase-core.version>-->
         <io.jsonwebtoken.version>0.11.5</io.jsonwebtoken.version>
         <org.mapstruct.version>1.5.2.Final</org.mapstruct.version>
         <org.projectlombok.version>1.18.20</org.projectlombok.version>
@@ -34,11 +34,11 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-            <version>${liquibase-core.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.liquibase</groupId>-->
+<!--            <artifactId>liquibase-core</artifactId>-->
+<!--            <version>${liquibase-core.version}</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -57,6 +57,11 @@
             <artifactId>lombok</artifactId>
             <version>${org.projectlombok.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
 
         <dependency>
@@ -148,6 +153,11 @@
             <artifactId>annotations</artifactId>
             <version>${org.jetbrains.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
         </dependency>
     </dependencies>
 

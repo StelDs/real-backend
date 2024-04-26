@@ -136,4 +136,9 @@ public class ApartmentParserDto {
     private String planningDescription;
     private Boolean smartPlanning;
     private ZonedDateTime dateTimeCreated;
+    private String picHrefs;
+    private String company;
+    private String phone;
+    private String statusParse;
+
 }

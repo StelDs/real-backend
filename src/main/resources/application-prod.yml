@@ -5,16 +5,16 @@ spring:
   main:
     banner-mode: off
 
-  liquibase:
-    enabled: true
-    change-log: classpath:db.changelog/database-changelog-master.xml
-    default-schema: reality
-    liquibase-schema: reality
+#  liquibase:
+#    enabled: true
+#    change-log: classpath:db.changelog/database-changelog-master.xml
+#    default-schema: reality
+#    liquibase-schema: reality
 
   datasource:
     url: jdbc:postgresql://postgres:5432/real
     username: owner_reality_db
-    password: owner_reality_db
+    password: StelRealDb2023
     driverClassName: org.postgresql.Driver
 
   jpa:

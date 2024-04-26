@@ -98,14 +98,14 @@ services:
 
   real-backend:
     container_name: Real-Backend
-    image: stelds/stell-backend:2.0
+    image: stelds/stell-backend:2.1
     build: .
     environment:
       SPRING_PROFILES_ACTIVE: prod
       SERVER_PORT: 8080
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/real
       SPRING_DATASOURCE_USERNAME: owner_reality_db
-      SPRING_DATASOURCE_PASSWORD: owner_reality_db
+      SPRING_DATASOURCE_PASSWORD: StelRealDb2023
     ports:
       - "8080:8080"
     networks:
