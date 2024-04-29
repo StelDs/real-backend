@@ -2,7 +2,6 @@ package ru.real.backend.impl.service.apartment;
 
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -15,15 +14,16 @@ import ru.real.backend.core.exception.DataNotFoundException;
 import ru.real.backend.core.util.SpecificationUtils;
 import ru.real.backend.domain.model.apartment.Apartment;
 import ru.real.backend.impl.mapper.ApartmentFullMapper;
+import ru.real.backend.impl.mapper.ApartmentMapper;
 import ru.real.backend.impl.mapper.ApartmentShortMapper;
 import ru.real.backend.impl.mapper.ApartmentParserMapper;
 import ru.real.backend.impl.repository.ApartmentRepository;
-import ru.real.backend.impl.repository.JdbcApartmentRepository;
 import ru.real.backend.impl.util.ApartmentExcelParser;
 import ru.real.backend.impl.util.PreferenceScoreCalculator;
 
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,14 +32,12 @@ public class ApartmentService {
     private final ApartmentRepository repository;
     private final ApartmentParserMapper parserMapper;
     private final ApartmentShortMapper shortMapper;
+
+    private final ApartmentMapper apartMapper;
     private final ApartmentFullMapper fullMapper;
     private final ApartmentExcelParser excelParser;
     private final PreferenceScoreCalculator calculator;
 
-
-    // Test JdbcTemplate
-    @Qualifier("ApartmentRepositoryImpl")
-    private JdbcApartmentRepository jdbcApartmentRepository;
 
     public ApartmentShortDto findById(UUID id) {
         return shortMapper.convertToDto(repository.findById(id).orElseThrow(() -> new DataNotFoundException(
@@ -55,6 +53,7 @@ public class ApartmentService {
                 )
         );
 
+
         return fullMapper.convertToDto(apartment);
 
     }
@@ -67,7 +66,6 @@ public class ApartmentService {
     }
 
 
-/*
     public ApartmentShortDto save(@NotNull Apartment dto) {
         AtomicReference<ApartmentShortDto> toReturn = new AtomicReference<>();
         repository.findByExternalId(dto.getExternalId()).ifPresentOrElse(it -> toReturn.set(shortMapper.convertToDto(it)), () -> {
@@ -77,23 +75,29 @@ public class ApartmentService {
         });
         return toReturn.get();
     }
-*/
-
-    public ApartmentShortDto save(@NotNull Apartment dto) {
-        ApartmentShortDto toReturn = null;
-
-        Optional<Apartment> existingEntity = repository.findByExternalId(dto.getExternalId());
-
-        //     Optional<ApartmentPicHrefDto> apt = jdbcApartmentRepository.findById(3332503L);
 
 
-        if (existingEntity.isPresent()) {
-            toReturn = shortMapper.convertToDto(existingEntity.get());
+    public ApartmentDto save(@NotNull Apartment dto, String status) {
+        ApartmentDto toReturn = null;
+
+        if (status.equals("ok")) {
+            Optional<Apartment> existingEntity = repository.findByExternalId(dto.getExternalId());
+
+            if (existingEntity.isPresent()) {
+                toReturn = apartMapper.convertToDto(existingEntity.get());
+                toReturn.setStatus("Warning");
+                toReturn.setInfo("Объект  уже сушествует в базе.");
+            } else {
+                dto.setId(UUID.randomUUID());
+                dto.setDateTimeCreated(ZonedDateTime.now());
+                toReturn = apartMapper.convertToDto(repository.save(dto));
+                toReturn.setInfo("Объект добавлен в базу.");
+                toReturn.setStatus("Ok");
+            }
         } else {
-            dto.setId(UUID.randomUUID());
-            dto.setDateTimeCreated(ZonedDateTime.now());
-            toReturn = shortMapper.convertToDto(repository.save(dto));
+            toReturn = ApartmentDto.builder().status("Error").info("Не хватает ключевых полей.").build();
         }
+
 
         return toReturn;
     }
@@ -119,15 +123,18 @@ public class ApartmentService {
 //    }
 
 
-    public List<ApartmentShortDto> parseAndSave(MultipartFile file) {
+    public List<ApartmentDto> parseAndSave(MultipartFile file) {
         List<ApartmentParserDto> parsedList = excelParser.parse(file);
-        List<ApartmentShortDto> savedList = new ArrayList<>();
+        List<ApartmentDto> savedList = new ArrayList<>();
 
         for (ApartmentParserDto model : parsedList) {
+
             Apartment entity = parserMapper.convertToEntity(model);
-            ApartmentShortDto savedDto = save(entity);
+            ApartmentDto savedDto = save(entity, model.getStatusParse());
             savedList.add(savedDto);
+
         }
+
 
         return savedList;
     }

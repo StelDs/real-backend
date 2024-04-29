@@ -15,6 +15,8 @@ public class ApartmentFullDto extends BaseDto {
     private Double price;
     private Double squarePrice;
     private Integer quantityRooms;
+
+    private String info;
     private String picHrefs;
     private String address;
     private Integer entrance;

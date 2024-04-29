@@ -34,7 +34,7 @@ public class ApartmentExcelParser extends DefaultParser<MultipartFile, Apartment
             Iterator<Row> rowIterator = sheet.iterator();
             //Пропуск шапки
             rowIterator.next();
-            rowIterator.next();
+
 
             while (rowIterator.hasNext()) {
                 apartments.add(getApartment(rowIterator.next()));
@@ -175,6 +175,11 @@ public class ApartmentExcelParser extends DefaultParser<MultipartFile, Apartment
         dto.setAddress(address);
 
         dto.setPicHrefs(getStringValue(row.getCell(121)));
+
+        if (dto.getQuantityRooms() == null || dto.getPrice() == null || dto.getSquare() == null || dto.getFloor() == null)
+            dto.setStatusParse("error");
+        else
+            dto.setStatusParse("ok");
 
         return dto;
     }

@@ -13,38 +13,34 @@ import java.util.Optional;
 
 @Repository
 public class ApartmentRepositoryImpl implements JdbcApartmentRepository {
-    @Autowired
+    //   @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
+
     @Override
     public Optional<ApartmentPicHrefDto> findById(Long externalId) {
+        Optional<ApartmentPicHrefDto> apart = null;
+
+        try {
+            var params = new MapSqlParameterSource();
+            params.addValue("externalId", externalId);
+
+            apart = jdbcTemplate.queryForObject(
+                    "select id, PIC_HREFS from reality.apartment where external_id = :id",
+                    params,
+                    (rs, rowNum) ->
+                            Optional.of(new ApartmentPicHrefDto(
+                                    UUID.fromString(rs.getString("id")),
+                                    rs.getString("PIC_HREFS")
+                            ))
+            );
 
 
-//        try {
-//            var params = new MapSqlParameterSource();
-//            params.addValue("externalId", externalId);
-//
-//            Optional<ApartmentPicHrefDto> a = jdbcTemplate.queryForObject(
-//                    "select id, PIC_HREFS from reality.apartment where external_id = :id",
-//                    params,
-//                    (rs, rowNum) ->
-//                            Optional.of(new ApartmentPicHrefDto(
-//                                    UUID.fromString(rs.getString("id")),
-//                                    rs.getString("PIC_HREFS")
-//                            ))
-//            );
-//
-//
-//        } catch (Exception e) {
-//            System.out.println("ОШИБКА : " + e.getMessage());
-//        }
+        } catch (Exception e) {
+            System.out.println("ОШИБКА : " + e.getMessage());
+        }
 
 
-        Optional<ApartmentPicHrefDto> a2 = Optional.of(new ApartmentPicHrefDto(
-                UUID.fromString("31119928-9100-4088-9cb8-c4085fa60aec"),
-                "picHrefs"
-        ));
-
-        return a2;
+        return apart;
 
     }
 }

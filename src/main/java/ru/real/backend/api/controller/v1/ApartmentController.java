@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.real.backend.api.dto.ApartmentDto;
 import ru.real.backend.api.dto.ApartmentShortDto;
 import ru.real.backend.api.dto.ApartmentSmartSearchDto;
 import ru.real.backend.api.resource.ApartmentResource;
@@ -49,7 +50,7 @@ public class ApartmentController implements ApartmentResource {
     }
 
     @Override
-    public ResponseEntity<List<ApartmentShortDto>> parseFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<List<ApartmentDto>> parseFile(@RequestParam("file") MultipartFile file) {
         return ResponseEntity.ok(apartmentService.parseAndSave(file));
     }
 
